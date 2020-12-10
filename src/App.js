@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Map from './components/Map';
+import Modal from './components/Modal';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+
+  }
+
+  modalRender = (type, entryID, lat, long) => {
+    this.setState({modalType: type, entryID: entryID, lat: lat, long: long})
+  }
+
+  closeModal = () => {
+    this.setState({modalType: null, entryID: null})
+  }
+
+  render(){
+
+    let modal;
+
+    if(this.state.modalType){
+      modal = <Modal closeModal={this.closeModal} type={this.state.modalType} entryID={this.state.entryID} lat={this.state.lat} long={this.state.long} />
+    }
+
+    return (
+      <div className="App">
+        {modal}
+        <Map modalRender={this.modalRender} />
+      </div>
+    );
+  }
+  
 }
 
 export default App;
