@@ -68,7 +68,7 @@ class Map extends React.Component {
             markers = this.state.markers.map((entry, idx) => {
                 return (
                     <Marker key={idx} latitude={entry.latitude} longitude={entry.longitude} offsetLeft={-15} offsetTop={-28}>
-                        <img style={{marginBottom: "15"}} src="https://michaelc1999.github.io/map-app/map-pin-blue.png" width="30px" height="30px" onClick={() => this.selectEntry(entry.LogEntryID)} />
+                        <img style={{marginBottom: "15"}} src="/map-pin-blue.png" width="30px" height="30px" onClick={() => this.selectEntry(entry.LogEntryID)} />
                     </Marker>)
             })
         } else {
