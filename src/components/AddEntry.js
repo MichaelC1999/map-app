@@ -57,7 +57,7 @@ class AddEntry extends React.Component {
             redirect: 'follow'
         };
 
-        fetch(process.env.REACT_APP_SERVER_URL + "/api/logs", requestOptions)
+        fetch(process.env.REACT_APP_SERVER_URL + "api/logs", requestOptions)
             .then(res => {
                 res.json()
             }).then(res => {
