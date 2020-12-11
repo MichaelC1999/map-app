@@ -15,8 +15,7 @@ class Map extends React.Component {
           zoom: 3,
           bearing: 0,
           pitch: 0
-        },
-        markers: []
+        }
     }
 
     componentDidMount() {
@@ -26,8 +25,9 @@ class Map extends React.Component {
             .then(data => {
                 return data.json()
             }).then(res => {
-                this.setState({markers: [...this.state.markers, res.markers]})
-                console.log("made past api fetch")
+                console.log(res.markers)
+                this.setState({markers: res.markers})
+                console.log(this.state.markers)
             }).then(res => {
                 console.log("into socket")
                 socket.on('entries', data => {
