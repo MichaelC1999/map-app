@@ -21,6 +21,9 @@
     background-color: rgba(116, 3, 3);
     color: white;
     z-index: 700;
+    width: 110px;
+    text-align: center;
+    height: 35px;
 }
 
 .project > * {
