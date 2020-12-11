@@ -20,19 +20,24 @@ class Map extends React.Component {
     }
 
     componentDidMount() {
+        const socket = openSocket(process.env.REACT_APP_SERVER_URL)
+
         fetch(process.env.REACT_APP_SERVER_URL + "api/markers")
             .then(data => {
                 return data.json()
             }).then(res => {
                 this.setState({markers: [...this.state.markers, res.markers]})
+                console.log("made past api fetch")
+            }).then(res => {
+                console.log("into socket")
+                socket.on('entries', data => {
+                    if(data.action === 'newEntry'){
+                        this.setState({markers: [...this.state.markers, data.marker]})
+                    }
+                })
             })
 
-        const socket = openSocket(process.env.REACT_APP_SERVER_URL)
-        socket.on('entries', data => {
-            if(data.action === 'newEntry'){
-                this.setState({markers: [...this.state.markers, data.marker]})
-            }
-        })
+        
     }
 
 
