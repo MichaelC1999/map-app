@@ -25,11 +25,8 @@ class Map extends React.Component {
             .then(data => {
                 return data.json()
             }).then(res => {
-                console.log(res.markers)
                 this.setState({markers: res.markers})
-                console.log(this.state.markers)
             }).then(res => {
-                console.log("into socket")
                 socket.on('entries', data => {
                     if(data.action === 'newEntry'){
                         this.setState({markers: [...this.state.markers, data.marker]})

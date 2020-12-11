@@ -20,6 +20,7 @@
     bottom: 0px;
     background-color: rgba(116, 3, 3);
     color: white;
+    z-index: 700;
 }
 
 .project > * {
