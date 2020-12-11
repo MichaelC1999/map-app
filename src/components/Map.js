@@ -107,7 +107,8 @@ class Map extends React.Component {
         return (
             <React.Fragment>
                 {startScreen}
-                {tools}             
+                {tools}
+                <div className="project"><a href="https://github.com/MichaelC1999/map-app">Project Link</a></div>             
                 <ReactMapGL
                     {...this.state.viewport}
                     width="100vw"
