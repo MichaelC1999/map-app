@@ -3,6 +3,8 @@ import ReactMapGL, {Marker} from 'react-map-gl';
 import Controls from './Controls';
 import Geocoder from 'react-mapbox-gl-geocoder';
 import './Map.css';
+import openSocket from 'socket.io-client';
+
 
 class Map extends React.Component {
     state = {
@@ -13,7 +15,8 @@ class Map extends React.Component {
           zoom: 3,
           bearing: 0,
           pitch: 0
-        }
+        },
+        markers: []
     }
 
     componentDidMount() {
@@ -21,8 +24,15 @@ class Map extends React.Component {
             .then(data => {
                 return data.json()
             }).then(res => {
-                this.setState({markers: res.markers})
+                this.setState({markers: [...this.state.markers, res.markers]})
             })
+
+        const socket = openSocket(process.env.REACT_APP_SERVER_URL)
+        socket.on('entries', data => {
+            if(data.action === 'newEntry'){
+                this.setState({markers: [...this.state.markers, data.marker]})
+            }
+        })
     }
 
 
