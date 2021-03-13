@@ -12,16 +12,16 @@ class AddEntry extends React.Component {
     }
 
     componentDidMount() {
-        // fetch("https://api.geonames.org/findNearbyPlaceNameJSON?lat=" + this.props.lat + "&lng=" + this.props.long + "&username=cm172596")
-        //     .then(res => {
-        //         return res.json()
-        //     }).then(res => {
-        //         if(res.geonames.length > 0){
-        //             this.setState({location: {town: res.geonames[0].name, state: res.geonames[0].adminName1, country: res.geonames[0].countryName}})
-        //         }
-        //     }).catch(err => {
-        //         this.setState({error: err.message})
-        //     })
+        fetch("http://api.geonames.org/findNearbyPlaceNameJSON?lat=" + this.props.lat + "&lng=" + this.props.long + "&username=cm172596")
+            .then(res => {
+                return res.json()
+            }).then(res => {
+                if(res.geonames.length > 0){
+                    this.setState({location: {town: res.geonames[0].name, state: res.geonames[0].adminName1, country: res.geonames[0].countryName}})
+                }
+            }).catch(err => {
+                this.setState({error: err.message})
+            })
     }
 
     changeValueHandler = (e) => {
@@ -43,9 +43,9 @@ class AddEntry extends React.Component {
         var formData = new FormData();
         formData.append("title", this.state.title);
         formData.append("image", e.target.image.files[0]);
-        // formData.append("town", this.state.location.town); 
-        // formData.append("state", this.state.location.state); 
-        // formData.append("country", this.state.location.country);
+        formData.append("town", this.state.location.town); 
+        formData.append("state", this.state.location.state); 
+        formData.append("country", this.state.location.country);
         formData.append("description", this.state.description);
         formData.append("latitude", this.props.lat);
         formData.append("longitude", this.props.long);
@@ -71,7 +71,7 @@ class AddEntry extends React.Component {
     render() {
         return (
             <div className="addEntry">
-                {/* <h3 style={{color: "white"}}>{this.state.location.town && this.state.location.state ? this.state.location.town + ", " + this.state.location.state: ""}</h3> */}
+                <h3 style={{color: "white"}}>{this.state.location.town && this.state.location.state ? this.state.location.town + ", " + this.state.location.state: ""}</h3>
                 {this.state.error ? <h4 style={{color: "white"}}>{this.state.error}</h4> : null }
                 <form className="input" onSubmit={this.submitHandler.bind()}>
                     <input className="btn" name="title" type="text" placeholder="Title" value={this.state.title} onChange={this.changeValueHandler.bind()} />
