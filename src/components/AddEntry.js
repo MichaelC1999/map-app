@@ -12,12 +12,16 @@ class AddEntry extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://api.geonames.org/findNearbyPlaceNameJSON?lat=" + this.props.lat + "&lng=" + this.props.long + "&username=cm172596")
+        fetch("https://open.mapquestapi.com/geocoding/v1/reverse?key=eRXGKFu3rZYY12JffRJSz4x3GIkTQBzG&location=" + this.props.lat + "," + this.props.long)
             .then(res => {
                 return res.json()
             }).then(res => {
-                if(res.geonames.length > 0){
-                    this.setState({location: {town: res.geonames[0].name, state: res.geonames[0].adminName1, country: res.geonames[0].countryName}})
+                console.log(res.results[0].locations)
+                if(res.results[0].locations[0].adminArea1 !== "XZ"){
+                    console.log("entered")
+                    this.setState({location: {town: res.results[0].locations[0].adminArea5, state: res.results[0].locations[0].adminArea3, country: res.results[0].locations[0].adminArea1}}, () => console.log("should have setSTate"))
+                } else {
+                    this.setState({location: {town: "", state: "", country: ""}, error: "Invalid location. Location data will not be saved."})
                 }
             }).catch(err => {
                 this.setState({error: err.message})
@@ -38,6 +42,8 @@ class AddEntry extends React.Component {
         if(!e.target.visitDate.value) {
             return this.setState({error: "No visit date selected. Try again"})
         }
+
+
         
 
         var formData = new FormData();
@@ -71,13 +77,13 @@ class AddEntry extends React.Component {
     render() {
         return (
             <div className="addEntry">
-                <h3 style={{color: "white"}}>{this.state.location.town && this.state.location.state ? this.state.location.town + ", " + this.state.location.state: ""}</h3>
+                <h3 style={{color: "white"}}>{this.state.location.town ? this.state.location.town + ", ": null}{this.state.location.state ? this.state.location.state + ", " + this.state.location.country : this.state.location.country}</h3>
                 {this.state.error ? <h4 style={{color: "white"}}>{this.state.error}</h4> : null }
                 <form className="input" onSubmit={this.submitHandler.bind()}>
                     <input className="btn" name="title" type="text" placeholder="Title" value={this.state.title} onChange={this.changeValueHandler.bind()} />
                     <textarea className="btn" name="description" type="text" placeholder="Description" value={this.state.description} onChange={this.changeValueHandler.bind()} />
                     <input className="btn" type="date" name="visitDate" />
-                    <input className="btn" type="file" name="image" />
+                    <input style={{width: "80%", marginTop: "6px"}} className="btn" type="file" name="image" />
 
                     {this.state.title && this.state.description ? <button className="btn" type="submit">Submit</button> : null }
                 </form>
