@@ -57,8 +57,8 @@ class Map extends React.Component {
     }
 
     newMarker = (evt) => {
-        this.setState({viewport: {...this.state.viewport, latitude: evt.lngLat[1], longitude: evt.lngLat[0]}})
-        this.props.modalRender("addEntry", "", this.state.viewport.latitude, this.state.viewport.longitude)
+        this.setState({viewport: {...this.state.viewport, latitude: evt.lngLat[1], longitude: evt.lngLat[0]}}, () => this.props.modalRender("addEntry", "", this.state.viewport.latitude, this.state.viewport.longitude))
+        
     }
 
     onSelected = (viewport, item) => {      

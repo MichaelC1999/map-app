@@ -12,16 +12,15 @@ class AddEntry extends React.Component {
     }
 
     componentDidMount() {
+        
         fetch("https://open.mapquestapi.com/geocoding/v1/reverse?key=eRXGKFu3rZYY12JffRJSz4x3GIkTQBzG&location=" + this.props.lat + "," + this.props.long)
             .then(res => {
                 return res.json()
             }).then(res => {
-                console.log(res.results[0].locations)
-                if(res.results[0].locations[0].adminArea1 !== "XZ"){
-                    console.log("entered")
-                    this.setState({location: {town: res.results[0].locations[0].adminArea5, state: res.results[0].locations[0].adminArea3, country: res.results[0].locations[0].adminArea1}}, () => console.log("should have setSTate"))
+                if(res.results[0].locations[0].adminArea1 !== "XZ" && res.results[0].locations[0].adminArea1 !== undefined){
+                    this.setState({location: {town: res.results[0].locations[0].adminArea5, state: res.results[0].locations[0].adminArea3, country: res.results[0].locations[0].adminArea1}})
                 } else {
-                    this.setState({location: {town: "", state: "", country: ""}, error: "Invalid location. Location data will not be saved."})
+                    this.setState({location: {town: "", state: "", country: ""}, error: "Open Sea"})
                 }
             }).catch(err => {
                 this.setState({error: err.message})
